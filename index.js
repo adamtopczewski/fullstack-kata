@@ -1,5 +1,8 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
+const Note = require('./models/note')
+
 const app = express();
 
 app.use(cors())
@@ -43,7 +46,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/notes', (req, res) => {
-    res.json(notes)
+    Note.find({}).then(notes => {
+        res.json(notes)
+    })
 })
 
 app.get('/api/notes/:id', (req, res) => {
@@ -99,3 +104,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
+
+
+
+// TODO https://fullstackopen.com/en/part3/saving_data_to_mongo_db#using-database-in-route-handlers
